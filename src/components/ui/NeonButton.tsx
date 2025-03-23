@@ -32,21 +32,29 @@ const buttonVariants = cva(
         md: "text-base h-10 px-4",
         lg: "text-lg h-11 px-8",
       },
+      variant: {
+        default: "",
+        outline: [
+          "bg-transparent border-2",
+          "hover:bg-transparent",
+          "border-current",
+        ],
+      },
     },
     defaultVariants: {
       color: "blue",
       size: "md",
+      variant: "default",
     },
   }
 );
 
 export interface NeonButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement | HTMLAnchorElement>,
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   href?: string;
   children: React.ReactNode;
   className?: string;
-  type?: string;
   target?: string;
   rel?: string;
 }
@@ -57,13 +65,14 @@ const NeonButton = ({
   className,
   color,
   size,
+  variant,
   type,
   target,
   rel,
   ...props
 }: NeonButtonProps) => {
   const classes = cn(
-    buttonVariants({ color, size, className })
+    buttonVariants({ color, size, variant, className })
   );
   
   if (href) {
@@ -81,7 +90,7 @@ const NeonButton = ({
   }
   
   return (
-    <button className={classes} type={type as any} {...props}>
+    <button className={classes} type={type as "button" | "submit" | "reset" | undefined} {...props}>
       {children}
     </button>
   );

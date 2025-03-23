@@ -81,11 +81,6 @@ const Contact = () => {
                   <div 
                     key={index} 
                     className="glass-card p-6 flex items-start space-x-4 cursor-pointer transition-all duration-300 hover:shadow-md"
-                    style={{ 
-                      "&:hover": { 
-                        boxShadow: "0 0 15px rgba(14,165,233,0.5)" 
-                      } 
-                    }}
                     onClick={() => item.title === 'Email' && copyToClipboard(item.details[0])}
                   >
                     <div className="mt-1">{item.icon}</div>

@@ -49,14 +49,26 @@ const buttonVariants = cva(
   }
 );
 
-export interface NeonButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+// Define the color type more explicitly to solve the color conflict
+type NeonButtonColor = "blue" | "pink" | "green";
+type NeonButtonVariant = "default" | "outline";
+type NeonButtonSize = "sm" | "md" | "lg";
+
+// Extract the component props and omit the native HTML color attribute
+type ButtonVariantProps = Omit<VariantProps<typeof buttonVariants>, 'color'> & {
+  color?: NeonButtonColor;
+};
+
+export interface NeonButtonProps 
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color'>,
+    ButtonVariantProps {
   href?: string;
   children: React.ReactNode;
   className?: string;
   target?: string;
   rel?: string;
+  variant?: NeonButtonVariant;
+  size?: NeonButtonSize;
 }
 
 const NeonButton = ({
@@ -82,7 +94,7 @@ const NeonButton = ({
         className={classes}
         target={target}
         rel={rel}
-        {...props}
+        {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
       >
         {children}
       </a>

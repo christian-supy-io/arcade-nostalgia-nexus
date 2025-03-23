@@ -1,72 +1,89 @@
 
 import React from 'react';
-import { cn } from "@/lib/utils";
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
 
-type NeonButtonProps = {
+const buttonVariants = cva(
+  "relative inline-flex items-center justify-center px-6 py-2 overflow-hidden font-medium transition-all rounded-lg group",
+  {
+    variants: {
+      color: {
+        blue: [
+          "text-white",
+          "bg-neon-blue/80 hover:bg-neon-blue",
+          "shadow-[0_0_15px_rgba(14,165,233,0.5)]",
+          "hover:shadow-[0_0_25px_rgba(14,165,233,0.7)]",
+        ],
+        pink: [
+          "text-white",
+          "bg-neon-pink/80 hover:bg-neon-pink",
+          "shadow-[0_0_15px_rgba(236,72,153,0.5)]",
+          "hover:shadow-[0_0_25px_rgba(236,72,153,0.7)]",
+        ],
+        green: [
+          "text-white",
+          "bg-neon-green/80 hover:bg-neon-green",
+          "shadow-[0_0_15px_rgba(16,185,129,0.5)]",
+          "hover:shadow-[0_0_25px_rgba(16,185,129,0.7)]",
+        ],
+      },
+      size: {
+        sm: "text-sm h-9 px-3",
+        md: "text-base h-10 px-4",
+        lg: "text-lg h-11 px-8",
+      },
+    },
+    defaultVariants: {
+      color: "blue",
+      size: "md",
+    },
+  }
+);
+
+export interface NeonButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement | HTMLAnchorElement>,
+    VariantProps<typeof buttonVariants> {
+  href?: string;
   children: React.ReactNode;
   className?: string;
-  color?: 'blue' | 'pink' | 'green';
-  onClick?: () => void;
-  href?: string;
-  animated?: boolean;
-  size?: 'sm' | 'md' | 'lg';
-  variant?: 'solid' | 'outline';
-};
+  type?: string;
+  target?: string;
+  rel?: string;
+}
 
-const NeonButton: React.FC<NeonButtonProps> = ({
+const NeonButton = ({
+  href,
   children,
   className,
-  color = 'blue',
-  onClick,
-  href,
-  animated = true,
-  size = 'md',
-  variant = 'solid',
+  color,
+  size,
+  type,
+  target,
+  rel,
   ...props
-}) => {
-  const buttonClasses = cn(
-    "relative group inline-flex items-center justify-center rounded-md font-medium transition-all focus:outline-none focus:ring-2 focus:ring-offset-2",
-    {
-      'px-4 py-2 text-sm': size === 'sm',
-      'px-5 py-2.5 text-base': size === 'md',
-      'px-6 py-3 text-lg': size === 'lg',
-      
-      // Solid variants
-      'bg-neon-blue text-white hover:bg-neon-blue/90 focus:ring-neon-blue': variant === 'solid' && color === 'blue',
-      'bg-neon-pink text-white hover:bg-neon-pink/90 focus:ring-neon-pink': variant === 'solid' && color === 'pink',
-      'bg-neon-green text-white hover:bg-neon-green/90 focus:ring-neon-green': variant === 'solid' && color === 'green',
-      
-      // Outline variants
-      'border-2 border-neon-blue text-neon-blue hover:bg-neon-blue/10 focus:ring-neon-blue': variant === 'outline' && color === 'blue',
-      'border-2 border-neon-pink text-neon-pink hover:bg-neon-pink/10 focus:ring-neon-pink': variant === 'outline' && color === 'pink',
-      'border-2 border-neon-green text-neon-green hover:bg-neon-green/10 focus:ring-neon-green': variant === 'outline' && color === 'green',
-      
-      // Shadow effects based on color
-      'shadow-[0_0_15px_rgba(14,165,233,0.5)]': color === 'blue',
-      'shadow-[0_0_15px_rgba(236,72,153,0.5)]': color === 'pink',
-      'shadow-[0_0_15px_rgba(16,185,129,0.5)]': color === 'green',
-    },
-    animated && 'hover:scale-[1.02] active:scale-[0.98] duration-200',
-    className
+}: NeonButtonProps) => {
+  const classes = cn(
+    buttonVariants({ color, size, className })
   );
-
-  const Component = href ? 'a' : 'button';
-  const htmlProps = href ? { href } : { onClick };
-
+  
+  if (href) {
+    return (
+      <a 
+        href={href} 
+        className={classes}
+        target={target}
+        rel={rel}
+        {...props}
+      >
+        {children}
+      </a>
+    );
+  }
+  
   return (
-    <Component className={buttonClasses} {...htmlProps} {...props}>
-      <span className="relative z-10">{children}</span>
-      <span 
-        className={cn(
-          "absolute inset-0 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300",
-          {
-            "bg-neon-blue/10": color === 'blue',
-            "bg-neon-pink/10": color === 'pink',
-            "bg-neon-green/10": color === 'green',
-          }
-        )}
-      />
-    </Component>
+    <button className={classes} type={type as any} {...props}>
+      {children}
+    </button>
   );
 };
 

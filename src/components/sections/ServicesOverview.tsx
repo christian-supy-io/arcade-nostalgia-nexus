@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ShoppingBag, Tool, PenTool, Clock, Package } from 'lucide-react';
+import { ShoppingBag, Wrench, PenTool, Clock, Package } from 'lucide-react';
 import ServiceCard from '../ui/ServiceCard';
 import NeonButton from '../ui/NeonButton';
 
@@ -15,7 +15,7 @@ const ServicesOverview: React.FC = () => {
     {
       title: 'Maintenance & Repair',
       description: 'Expert maintenance and repair services to keep your machines running perfectly, with fast response times.',
-      icon: <Tool size={24} />,
+      icon: <Wrench size={24} />,
       color: 'pink' as const
     },
     {

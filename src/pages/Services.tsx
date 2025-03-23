@@ -1,7 +1,6 @@
-
 import React, { useEffect } from 'react';
 import AnimatedGradientText from '@/components/ui/AnimatedGradientText';
-import { ShoppingBag, Tool, PenTool, Clock, Package, Settings, Truck, Zap } from 'lucide-react';
+import { ShoppingBag, Wrench, PenTool, Clock, Package, Settings, Truck, Zap } from 'lucide-react';
 import NeonButton from '@/components/ui/NeonButton';
 
 const Services = () => {
@@ -33,7 +32,7 @@ const Services = () => {
     {
       title: 'Maintenance & Support',
       description: 'Professional service to keep your arcade machines in peak condition',
-      icon: <Tool size={40} />,
+      icon: <Wrench size={40} />,
       color: 'pink' as const,
       services: [
         {

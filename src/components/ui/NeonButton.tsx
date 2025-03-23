@@ -59,6 +59,7 @@ type ButtonVariantProps = Omit<VariantProps<typeof buttonVariants>, 'color'> & {
   color?: NeonButtonColor;
 };
 
+// Define types for button props
 export interface NeonButtonProps 
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'color'>,
     ButtonVariantProps {
@@ -88,13 +89,29 @@ const NeonButton = ({
   );
   
   if (href) {
+    // For anchor elements, only pass anchor-compatible props
+    // Create a new object with only the props that are valid for anchors
+    const anchorProps: React.AnchorHTMLAttributes<HTMLAnchorElement> = {};
+    
+    // Copy over props that are generally common between anchors and buttons
+    if (props.onClick) anchorProps.onClick = props.onClick;
+    if (props.id) anchorProps.id = props.id;
+    if (props.style) anchorProps.style = props.style;
+    if (props.tabIndex) anchorProps.tabIndex = props.tabIndex;
+    if (props.title) anchorProps.title = props.title;
+    if (props.role) anchorProps.role = props.role;
+    if (props.onMouseEnter) anchorProps.onMouseEnter = props.onMouseEnter;
+    if (props.onMouseLeave) anchorProps.onMouseLeave = props.onMouseLeave;
+    if (props.onFocus) anchorProps.onFocus = props.onFocus;
+    if (props.onBlur) anchorProps.onBlur = props.onBlur;
+    
     return (
       <a 
         href={href} 
         className={classes}
         target={target}
         rel={rel}
-        {...(props as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+        {...anchorProps}
       >
         {children}
       </a>

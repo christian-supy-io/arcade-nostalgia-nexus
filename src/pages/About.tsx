@@ -22,7 +22,7 @@ const About = () => {
     {
       icon: <Users className="text-neon-green" size={24} />,
       title: 'Service',
-      description: 'We're committed to exceptional customer service and satisfaction.'
+      description: 'We\'re committed to exceptional customer service and satisfaction.'
     },
     {
       icon: <Clock className="text-neon-blue" size={24} />,
